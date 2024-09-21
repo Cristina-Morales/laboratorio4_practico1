@@ -1,26 +1,17 @@
-const express = require('express')
+const axios = require('axios');
 
-class Server {
-  constructor () {
-    this.app = express();
-    this.port = process.env.PORT || 3000;
-    this.middleware();
-    this.rutas();
-  }
+const getSpotifyToken = async () => {
+  const response = await axios({
+    url: 'https://accounts.spotify.com/api/token',
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Basic ' + Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`).toString('base64'),
+    },
+    data: 'grant_type=client_credentials',
+  });
 
-  middleware () {
-    this.app.use(express.static('public'));
-  }
+  return response.data.access_token;
+};
 
-  rutas () {
-    this.app.use('/api/v1/empleados', require('../routes/empleados'));
-  }
-
-  listen () {
-    this.app.listen(this.port, () => {
-      console.log(`La API esta escuchando en el this.PORT ${this.port}`)
-    });
-  }
-}
-
-module.exports = Server
+module.exports = { getSpotifyToken };

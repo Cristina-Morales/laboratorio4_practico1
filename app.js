@@ -1,16 +1,17 @@
-require('dotenv').config()
-const Server = require('./models/server')
+require('dotenv').config();
+const express = require('express');
+const app = express();
+const routes = require('./routes/routes');
 
-const servidor = new Server()
+// Middleware para parsear JSON
+app.use(express.json());
 
-const port = process.env.PORT || 3000;
+// Usar las rutas de la API
+app.use('/api/v1', routes);
 
-app.get('/', (req, res) => {
-    res.send('Hello World')
-})
+// Puerto del servidor
+const PORT = process.env.PORT || 3000;
 
-app.listen(port, ()=>{
-    console.log('La API esta escuchando en el PORT ${port}')
-})
-
-servidor.listen()
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});
