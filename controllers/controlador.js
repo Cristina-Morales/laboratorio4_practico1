@@ -1,69 +1,54 @@
 const axios = require('axios');
-const { getSpotifyToken } = require('../models/server');
+const qs = require('qs');
 
-const getSpotifyData = async (req, res) => {
+// Función para obtener el token de autenticación de Spotify
+const getSpotifyAuthToken = async () => {
+  const tokenUrl = 'https://accounts.spotify.com/api/token';
+  const data = qs.stringify({
+    'grant_type': 'client_credentials',
+  });
+  const headers = {
+    'Authorization': `Basic ${Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`).toString('base64')}`,
+    'Content-Type': 'application/x-www-form-urlencoded',
+  };
+
+  const response = await axios.post(tokenUrl, data, { headers });
+  return response.data.access_token;
+};
+
+// Función para obtener la información de un artista por su nombre
+const getArtistInfo = async (req, res, next) => {
   try {
-    const token = await getSpotifyToken();
-    const { year, genre, artist } = req.query;
+    const token = await getSpotifyAuthToken();
+    const artistName = req.params.name;
 
-    // Verificar que al menos uno de los parámetros de búsqueda esté presente
-    if (!year && !genre && !artist) {
-      return res.status(400).json({
-        status: 'error',
-        msg: 'Debe proporcionar al menos un parámetro de búsqueda (year, genre, artist)'
-      });
-    }
-
-    // Formar la consulta de búsqueda dinámicamente
-    let query = '';
-    if (year) query += `year:${year} `;
-    if (genre) query += `genre:${genre} `;
-    if (artist) query += `artist:${artist}`;
-
-    // Búsqueda en la API de Spotify
-    const response = await axios.get('https://api.spotify.com/v1/search', {
+    // Busca el artista en Spotify
+    const searchUrl = `https://api.spotify.com/v1/search?q=${artistName}&type=artist`;
+    const artistResponse = await axios.get(searchUrl, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
-      params: {
-        q: query.trim(),
-        type: 'album,artist',
-        limit: 10 // Puedes ajustar este límite según lo que necesites
-      }
     });
 
-    // Procesar los resultados y mapear la información que deseas mostrar
-    const albums = response.data.albums ? response.data.albums.items : [];
-    const artists = response.data.artists ? response.data.artists.items : [];
+    const artist = artistResponse.data.artists.items[0]; // Tomamos el primer resultado
 
-    const data = {
-      artists: artists.map(artist => ({
-        name: artist.name,
-        genres: artist.genres,
-        popularity: artist.popularity,
-        external_url: artist.external_urls.spotify
-      })),
-      albums: albums.map(album => ({
-        name: album.name,
-        artist: album.artists[0].name,
-        release_date: album.release_date,
-        total_tracks: album.total_tracks,
-        external_url: album.external_urls.spotify
-      }))
-    };
-
-    // Devolver respuesta exitosa
-    res.status(200).json({
-      status: 'ok',
-      data
+    // Busca las canciones más populares del artista
+    const topTracksUrl = `https://api.spotify.com/v1/artists/${artist.id}/top-tracks?market=US`;
+    const topTracksResponse = await axios.get(topTracksUrl, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
+    const topTracks = topTracksResponse.data.tracks;
+
+    // Guardamos la información en res.locals para que el middleware la use
+    res.locals.data = { artist, topTracks };
+    next();
   } catch (error) {
-    res.status(500).json({
-      status: 'error',
-      msg: 'Error inesperado al obtener la información'
-    });
+    console.error(error);
+    res.status(500).json({ status: 'error', msg: 'Error al obtener información del artista' });
   }
 };
 
-module.exports = { getSpotifyData };
+module.exports = { getArtistInfo };

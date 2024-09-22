@@ -1,8 +1,9 @@
 const express = require('express');
-const { getSpotifyData } = require('../controllers/controlador');
 const router = express.Router();
+const { getArtistInfo } = require('../controllers/controlador');
+const htmlFormatter = require('../middlewares/html');
 
-// Ruta principal con filtros de año, género y artista
-router.get('/albums', getSpotifyData);
+// Ruta para mostrar información del artista en HTML
+router.get('/artist/:name', getArtistInfo, htmlFormatter);
 
 module.exports = router;
