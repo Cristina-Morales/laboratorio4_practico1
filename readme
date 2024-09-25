@@ -1,0 +1,30 @@
+API Practico1 Laboratorio 1
+
+Integrantes del grupo:
+  Cristina Morales
+  Ezequiel Suarez
+
+
+  Se van a hacer 2 api apuntando al mismo repositorio cada uno va a traer distinto tipo de objeto.
+
+Api para obtener Animales:
+
+2 servicios:
+
+1: /animales
+devuelve un listado de animales
+1a: /animales?search=lion  (nombre del animal)
+Este mismo servicio puede llevar un filtro. Este filtro solo busca por nombre entre los animales
+
+2: /animales/id   (id=int)
+En caso de encontrar al animal, lo develve en el response.
+
+
+
+
+
+
+
+.env los datos del archivo .env no son privados, por lo tanto se pueden escribir aca.
+PORT=3000
+URL=https://freetestapi.com/api/v1/
