@@ -1,0 +1,24 @@
+{
+  "name": "laboratorio4_practico1",
+  "version": "1.0.0",
+  "description": "proyecto 1",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app",
+    "lint": "npx standard",
+    "lint:fix": "npx standard --fix",
+    "prepare": "husky"
+  },
+  "author": "Morales, Suarez",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.11.1",
+    "standard": "^17.1.2"
+  }
+}
