@@ -1,9 +1,8 @@
 const express = require('express');
+const { getArtistInfo, getTrackInfo } = require('../controllers/controlador');
 const router = express.Router();
-const { getArtistInfo } = require('../controllers/controlador');
-const htmlFormatter = require('../middlewares/html');
 
-// Ruta para mostrar información del artista en HTML
-router.get('/artist/:name', getArtistInfo, htmlFormatter);
+router.get('/artist/:name', getArtistInfo);
+router.get('/track/:name', getTrackInfo);
 
 module.exports = router;
