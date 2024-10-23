@@ -1,20 +1,17 @@
-const express = require('express')
-class Server {
-  constructor () {
-    this.app = express()
-    this.port = process.env.PORT || 3000
-    this.url = process.env.URL
-    this.rutas()
-  }
+const axios = require('axios');
 
-  rutas () {
-    this.app.use('/api/v1/', require('../routes/AnimalesSuarez')) // Suarez
-  }
+const getSpotifyToken = async () => {
+  const response = await axios({
+    url: 'https://accounts.spotify.com/api/token',
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Basic ' + Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`).toString('base64'),
+    },
+    data: 'grant_type=client_credentials',
+  });
 
-  listen () {
-    this.app.listen(this.port, () => {
-      console.log('Cargo bien')
-    })
-  }
-}
-module.exports = Server
+  return response.data.access_token;
+};
+
+module.exports = { getSpotifyToken };
