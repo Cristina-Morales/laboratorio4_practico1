@@ -8,7 +8,7 @@ class Server {
   }
 
   rutas () {
-    this.app.use('/api/v1/', require('../routes/Animales')) // Cristina Morales
+    this.app.use('/api/v1/', require('../routes/Gatos')) // Cristina Morales
     // aca tambien va tu app
   }
 

@@ -11,13 +11,18 @@ Api para obtener Animales:
 
 2 servicios:
 
-1: /animales
-devuelve un listado de animales
-1a: /animales?search=lion  (nombre del animal)
-Este mismo servicio puede llevar un filtro. Este filtro solo busca por nombre entre los animales
+1: /gatitos
+devuelve un listado de gatos
 
-2: /animales/id   (id=int)
-En caso de encontrar al animal, lo develve en el response.
+1a: /animales?sexo=female&raza=Nebelung&adoptado=true&nombre=Liliana
+sexo puede ser male o female 
+raza puede ser Nebelung, Somali, Thai, Burmese entre otros
+adoptado puede ser true o false
+nombre puede ser Robert, Mozell, Dillon, Mallie entre otros
+Los filtros funcionan como busqueda, en parte de los textos, no hace falta poner el nombre completo
+
+2: /gatitos/id   (id=int)
+En caso de encontrar al gatito con ese id, lo develve en el response.
 
 
 
@@ -27,4 +32,4 @@ En caso de encontrar al animal, lo develve en el response.
 
 .env los datos del archivo .env no son privados, por lo tanto se pueden escribir aca.
 PORT=3000
-URL=https://freetestapi.com/api/v1/
+URL=https://67179d7fb910c6a6e0292227.mockapi.io/labo4/api/
