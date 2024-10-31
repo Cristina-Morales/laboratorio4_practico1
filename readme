@@ -19,12 +19,18 @@ Este mismo servicio puede llevar un filtro. Este filtro solo busca por nombre en
 2: /animales/id   (id=int)
 En caso de encontrar al animal, lo develve en el response.
 
+1: /lanzamientos 
+Este mostrara los 50 ultimos lanzamientos del rock nacional y uruguayo
 
-
-
-
+2: /lanzamientos?limit=20
+Este dependiendo del limite que incorpore le dara 10, 20 o todos los estrenos que usted decida ver.
 
 
 .env los datos del archivo .env no son privados, por lo tanto se pueden escribir aca.
 PORT=3000
 URL=https://freetestapi.com/api/v1/
+
+.env spotify
+GRANT_TYPE=client_credentials
+CLIENT_ID=289511584bc3438d9b7d65ecda9179bb
+CLIENT_SECRET=307a2b7661a14bd5ab43a6d2d881cddd
