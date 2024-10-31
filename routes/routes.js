@@ -1,8 +1,10 @@
-const express = require('express');
-const { getArtistInfo, getTrackInfo } = require('../controllers/controlador');
-const router = express.Router();
+const { Router } = require('express')
+const { getNewReleases } = require('../controllers/controlador');
 
-router.get('/artist/:name', getArtistInfo);
-router.get('/track/:name', getTrackInfo);
+const rutas = Router()
 
-module.exports = router;
+// Nueva ruta para lanzamientos recientes
+rutas.get('/lanzamientos', getNewReleases);
+
+
+module.exports = rutas
