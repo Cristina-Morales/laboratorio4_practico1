@@ -1,10 +1,12 @@
-const { Router } = require('express')
-const { getNewReleases } = require('../controllers/controlador');
+const { Router } = require('express');
+const { getNewReleases, getReleaseById } = require('../controllers/controlador');
 
-const rutas = Router()
+const rutas = Router();
 
-// Nueva ruta para lanzamientos recientes
+// Ruta para lanzamientos recientes
 rutas.get('/lanzamientos', getNewReleases);
 
+// Ruta para obtener un lanzamiento específico por id
+rutas.get('/lanzamientos/:id', getReleaseById);
 
-module.exports = rutas
+module.exports = rutas;

@@ -9,11 +9,7 @@ class Server {
     this.url = process.env.URL
     this.rutas()
   }
-
-  rutas () {
-    this.app.use('/api/v1/', require('../routes/Gatos')) // Cristina Morales
-  }
-
+  
   listen () {
     this.app.listen(this.port, () => {
       console.log('Cargo bien')
@@ -39,5 +35,11 @@ class Server {
       throw new Error('No se pudo obtener el token de Spotify');
     }
   }
+
+  rutas () {
+    this.app.use('/api/v1/', require('../routes/Gatos')) // Cristina Morales
+    this.app.use('/api/v1/', require('../routes/Lanzamientos')) // Ezequiel Suarez
+  }
+
 }
 module.exports = Server
