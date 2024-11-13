@@ -12,8 +12,9 @@ class Server {
 
   rutas () {
     this.app.use('/api/v1/', require('../routes/Gatos')) // Cristina Morales
+    this.app.use('/api/v1/', require('../routes/Lanzamientos')) // Ezequiel Suarez
   }
-
+  
   listen () {
     this.app.listen(this.port, () => {
       console.log('Cargo bien')
